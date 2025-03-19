@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Bag</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .cart-container {
+            background-color: #fff;
+            border: 10px solid #77C043;
+            border-radius: 8px;
+            width: 600px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .item-info {
+            /* flex: 1; */
+            width: 280px;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon {
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .heart { color: red; }
+        .cross { color: #ccc; }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .quantity-control button {
+            background-color: #ddd;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .price {
+            margin-left: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h2>Shopping Bag</h2>
+
+        <div class="item" data-price="549">
+            <span class="icon cross">&#10005;</span>
+            <span class="icon heart">&#10084;</span>
+            <img src="https://m.media-amazon.com/images/I/51hW++LV47L._AC_SY200_QL15_.jpg" alt="Shoes">
+            <div class="item-info">
+                <strong>Common Projects</strong><br>
+                Bball High<br>
+                White
+            </div>
+            <div class="item-controls">
+                <div class="quantity-control">
+                    <button class="plus">+</button>
+                    <span class="quantity">2</span>
+                    <button class="minus">-</button>
+                </div>
+                <div class="price">$1098</div>
+            </div>
+        </div>
+
+        <div class="item" data-price="870">
+            <span class="icon cross">&#10005;</span>
+            <span class="icon heart">&#10084;</span>
+            <img src="https://cdn-images.farfetch-contents.com/16/54/39/54/16543954_32649553_600.jpg" alt="Sneakers">
+            <div class="item-info">
+                <strong>Maison Margiela</strong><br>
+                Future Sneakers<br>
+                White
+            </div>
+            <div class="item-controls">
+                <div class="quantity-control">
+                    <button class="plus">+</button>
+                    <span class="quantity">1</span>
+                    <button class="minus">-</button>
+                </div>
+                <div class="price">$870</div>
+            </div>
+        </div>
+
+        <div class="item" data-price="349">
+            <span class="icon cross">&#10005;</span>
+            <span class="icon heart">&#10084;</span>
+            <img src="https://cdn-images.farfetch-contents.com/21/03/26/11/21032611_51785739_600.jpg" alt="Scarf">
+            <div class="item-info">
+                <strong>Our Legacy</strong><br>
+                Brushed Scarf<br>
+                Brown
+            </div>
+            <div class="item-controls">
+                <div class="quantity-control">
+                    <button class="plus">+</button>
+                    <span class="quantity">1</span>
+                    <button class="minus">-</button>
+                </div>
+                <div class="price">$349</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll(".item").forEach(item => {
+            const plusBtn = item.querySelector(".plus");
+            const minusBtn = item.querySelector(".minus");
+            const quantityEl = item.querySelector(".quantity");
+            const priceEl = item.querySelector(".price");
+            const basePrice = parseInt(item.getAttribute("data-price"));
+            const crossIcon = item.querySelector(".cross");
+            const heartIcon = item.querySelector(".heart");
+
+            // Function to update the price
+            const updatePrice = () => {
+                const quantity = parseInt(quantityEl.textContent);
+                priceEl.textContent = `$${(basePrice * quantity).toFixed(2)}`;
+            };
+
+            // Increase quantity
+            plusBtn.addEventListener("click", () => {
+                let quantity = parseInt(quantityEl.textContent);
+                quantity++;
+                quantityEl.textContent = quantity;
+                updatePrice();
+            });
+
+            // Decrease quantity
+            minusBtn.addEventListener("click", () => {
+                let quantity = parseInt(quantityEl.textContent);
+                if (quantity > 1) {
+                    quantity--;
+                    quantityEl.textContent = quantity;
+                    updatePrice();
+                }
+            });
+
+            // Remove item
+            crossIcon.addEventListener("click", () => {
+                item.remove();
+            });
+
+            // Toggle favorite
+            heartIcon.addEventListener("click", () => {
+                heartIcon.classList.toggle("heart");
+                heartIcon.style.color = heartIcon.classList.contains("heart") ? "red" : "#ccc";
+            });
+        });
+    </script>
+</body>
+</html>
